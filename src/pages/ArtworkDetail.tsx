@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, MapPin, Clock, Share2, Heart } from 'lucide-react';
+import { ArrowLeft, MapPin, Clock, Share2, Heart, Volume2 } from 'lucide-react';
 import { LanguageSwitcher, type Language } from '@/components/LanguageSwitcher';
 import { AudioPlayer } from '@/components/AudioPlayer';
 import { Button } from '@/components/ui/button';
@@ -12,6 +12,7 @@ export default function ArtworkDetail() {
   const [language, setLanguage] = useState<Language>('fr');
   const [isFavorite, setIsFavorite] = useState(false);
   const [imageZoom, setImageZoom] = useState(false);
+  const [isReading, setIsReading] = useState(false);
 
   const artwork = artworks.find(art => art.id === id);
 
@@ -40,6 +41,19 @@ export default function ArtworkDetail() {
     artwork.relatedArtworks.includes(art.id)
   );
 
+  const handleReadAloud = () => {
+    if (!('speechSynthesis' in window)) return;
+    if (isReading) {
+      window.speechSynthesis.cancel();
+      setIsReading(false);
+      return;
+    }
+    const utter = new SpeechSynthesisUtterance(artwork.description[language]);
+    utter.onend = () => setIsReading(false);
+    setIsReading(true);
+    window.speechSynthesis.speak(utter);
+  };
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
@@ -67,6 +81,12 @@ export default function ArtworkDetail() {
               <Share2 className="w-5 h-5" />
             </Button>
 
+            {('speechSynthesis' in window) && (
+              <Button variant="ghost" size="icon" onClick={handleReadAloud}>
+                <Volume2 className={`w-5 h-5 ${isReading ? 'text-primary' : ''}`} />
+              </Button>
+            )}
+
             <LanguageSwitcher
               currentLanguage={language}
               onLanguageChange={setLanguage}
@@ -77,14 +97,23 @@ export default function ArtworkDetail() {
 
       {/* Main image */}
       <div className="relative w-full h-screen">
-        <img
-          src={artwork.image}
-          alt={artwork.title[language]}
-          className={`w-full h-full object-contain bg-black cursor-zoom-in transition-transform duration-500 ${
-            imageZoom ? 'scale-150' : 'scale-100'
-          }`}
-          onClick={() => setImageZoom(!imageZoom)}
-        />
+        {artwork.video ? (
+          <video
+            src={artwork.video}
+            controls
+            poster={artwork.image}
+            className="w-full h-full object-contain bg-black"
+          />
+        ) : (
+          <img
+            src={artwork.image}
+            alt={artwork.title[language]}
+            className={`w-full h-full object-contain bg-black cursor-zoom-in transition-transform duration-500 ${
+              imageZoom ? 'scale-150' : 'scale-100'
+            }`}
+            onClick={() => setImageZoom(!imageZoom)}
+          />
+        )}
         <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent pointer-events-none" />
       </div>
 
@@ -100,6 +129,11 @@ export default function ArtworkDetail() {
             <div className="flex items-center gap-3 text-muted-foreground">
               <MapPin className="w-5 h-5 text-primary" />
               <span className="text-lg">{artwork.origin.country}, {artwork.origin.region}</span>
+              {artwork.museum && (
+                <span className="text-sm text-cream/70">
+                  — {artwork.museum.name} · {artwork.museum.city}, {artwork.museum.country}
+                </span>
+              )}
             </div>
           </div>
 
@@ -117,6 +151,13 @@ export default function ArtworkDetail() {
               title={artwork.title[language]}
               autoPlay={true}
             />
+            {!artwork.audio[language] && (
+              <div className="text-sm text-muted-foreground">
+                {language === 'fr' && `Enregistrez l'audio à placer dans ${artwork.audio.fr || '/audio/<id>-fr.mp3'}`}
+                {language === 'en' && `Record audio and place it at ${artwork.audio.en || '/audio/<id>-en.mp3'}`}
+                {language === 'wo' && `Record audio ak def ko ci ${artwork.audio.wo || '/audio/<id>-wo.mp3'}`}
+              </div>
+            )}
           </div>
 
           {/* Description */}
@@ -124,6 +165,26 @@ export default function ArtworkDetail() {
             <p className="text-lg leading-relaxed text-foreground">
               {artwork.description[language]}
             </p>
+          </div>
+
+          {/* Cultural Context / Materials / Dimensions */}
+          <div className="grid md:grid-cols-3 gap-6">
+            <div className="bg-card/50 p-6 rounded-2xl border border-border">
+              <h3 className="text-xl font-bold mb-3 text-white">{language === 'fr' ? 'Contexte culturel' : language === 'en' ? 'Cultural Context' : 'Contexte culturel'}</h3>
+              <p className="text-foreground text-sm leading-relaxed">{artwork.culturalContext?.[language]}</p>
+            </div>
+            <div className="bg-card/50 p-6 rounded-2xl border border-border">
+              <h3 className="text-xl font-bold mb-3 text-white">{language === 'fr' ? 'Matériaux' : language === 'en' ? 'Materials' : 'Matériaux'}</h3>
+              <p className="text-foreground text-sm leading-relaxed">{artwork.materials?.join(', ') || '—'}</p>
+              <div className="mt-3 text-sm text-muted-foreground">{language === 'fr' ? 'Période' : language === 'en' ? 'Period' : 'Période'}: {artwork.period || '—'}</div>
+              <div className="text-sm text-muted-foreground">{language === 'fr' ? 'Dimensions' : language === 'en' ? 'Dimensions' : 'Dimensions'}: {artwork.dimensions || '—'}</div>
+            </div>
+            <div className="bg-card/50 p-6 rounded-2xl border border-border">
+              <h3 className="text-xl font-bold mb-3 text-white">{language === 'fr' ? 'Provenance' : language === 'en' ? 'Provenance' : 'Provenance'}</h3>
+              <p className="text-foreground text-sm leading-relaxed">{artwork.provenance?.[language]}</p>
+              <div className="mt-3 text-sm text-muted-foreground">{language === 'fr' ? 'Note du conservateur' : language === 'en' ? 'Curator Note' : 'Note du conservateur'}</div>
+              <p className="text-foreground text-sm leading-relaxed">{artwork.curatorNotes?.[language]}</p>
+            </div>
           </div>
 
           {/* Timeline */}

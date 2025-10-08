@@ -14,6 +14,7 @@ export const AudioPlayer = ({ audioUrl, title, autoPlay = false }: AudioPlayerPr
   const [progress, setProgress] = useState(0);
   const [isMuted, setIsMuted] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
+  const [ttsSpeaking, setTtsSpeaking] = useState(false);
 
   useEffect(() => {
     if (autoPlay && audioRef.current) {
@@ -50,6 +51,19 @@ export const AudioPlayer = ({ audioUrl, title, autoPlay = false }: AudioPlayerPr
     if (!audioRef.current) return;
     audioRef.current.muted = !isMuted;
     setIsMuted(!isMuted);
+  };
+
+  const toggleTTS = () => {
+    if (!('speechSynthesis' in window)) return;
+    if (ttsSpeaking) {
+      window.speechSynthesis.cancel();
+      setTtsSpeaking(false);
+      return;
+    }
+    const utter = new SpeechSynthesisUtterance(title);
+    utter.onend = () => setTtsSpeaking(false);
+    setTtsSpeaking(true);
+    window.speechSynthesis.speak(utter);
   };
 
   return (
@@ -97,6 +111,12 @@ export const AudioPlayer = ({ audioUrl, title, autoPlay = false }: AudioPlayerPr
             <Volume2 className="w-5 h-5" />
           )}
         </Button>
+
+        {('speechSynthesis' in window) && (
+          <Button onClick={toggleTTS} variant="outline" size="sm">
+            {ttsSpeaking ? 'Stop TTS' : 'Lire le titre'}
+          </Button>
+        )}
       </div>
 
       {isPlaying && (

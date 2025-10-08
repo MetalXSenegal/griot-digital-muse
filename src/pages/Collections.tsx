@@ -2,9 +2,10 @@ import { useState } from 'react';
 import { LanguageSwitcher, type Language } from '@/components/LanguageSwitcher';
 import { ArtworkCard } from '@/components/ArtworkCard';
 import { artworks } from '@/data/artworks';
-import { Crown, Sparkles, Home as HomeIcon, PartyPopper } from 'lucide-react';
+import { Crown, Sparkles, Home as HomeIcon, PartyPopper, QrCode } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
+import logo from '@/assets/logo.png';
 
 const categories = [
   { id: 'all', icon: HomeIcon, label: { fr: 'Tout', en: 'All', wo: 'Lépp' } },
@@ -28,14 +29,21 @@ export default function Collections() {
         <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
           <Link to="/">
             <Button variant="ghost" className="text-xl font-bold text-primary">
-              MCN
+              <img src={logo} alt="Logo" className="w-12 h-12" />
             </Button>
           </Link>
           
-          <LanguageSwitcher
-            currentLanguage={language}
-            onLanguageChange={setLanguage}
-          />
+          <div className="flex items-center gap-3">
+            <Link to="/scan">
+              <Button variant="outline" size="sm" className="gap-2">
+                <QrCode className="w-4 h-4" /> Scan
+              </Button>
+            </Link>
+            <LanguageSwitcher
+              currentLanguage={language}
+              onLanguageChange={setLanguage}
+            />
+          </div>
         </div>
       </div>
 

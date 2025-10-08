@@ -22,6 +22,30 @@ export interface Artwork {
     en: string;
     wo: string;
   };
+  video?: string;
+  period?: string;
+  materials?: string[];
+  dimensions?: string;
+  culturalContext?: {
+    fr: string;
+    en: string;
+    wo: string;
+  };
+  provenance?: {
+    fr: string;
+    en: string;
+    wo: string;
+  };
+  curatorNotes?: {
+    fr: string;
+    en: string;
+    wo: string;
+  };
+  museum?: {
+    name: string;
+    city: string;
+    country: string;
+  };
   timeline: Array<{
     year: string;
     event: {
@@ -35,173 +59,107 @@ export interface Artwork {
   tags: string[];
 }
 
-export const artworks: Artwork[] = [
-  {
-    id: 'mask-royal',
-    title: {
-      fr: 'Masque Royal Akan',
-      en: 'Akan Royal Mask',
-      wo: 'Masque bu Boroom Akan'
-    },
-    origin: {
-      region: 'Ghana',
-      country: 'Ghana',
-      coordinates: [5.6037, -0.1870]
-    },
-    category: 'royalty',
-    image: '/src/assets/artwork-mask.jpg',
-    description: {
-      fr: "Ce masque royal incarne la puissance et la sagesse des rois Akan. Ses motifs dorés racontent l'histoire d'une lignée royale vieille de plusieurs siècles.",
-      en: "This royal mask embodies the power and wisdom of Akan kings. Its golden patterns tell the story of a royal lineage spanning centuries.",
-      wo: "Ci masque royal bi, nekk na ci ñu barke ak xam-xam yu buur yi Akan. Motifs bi ñu dore, wax na ab tarixu ligné royale bu am ay siècle yu bari."
-    },
-    audio: {
-      fr: '/audio/mask-fr.mp3',
-      en: '/audio/mask-en.mp3',
-      wo: '/audio/mask-wo.mp3'
-    },
-    timeline: [
-      {
-        year: '1400',
-        event: {
-          fr: 'Création du royaume Akan',
-          en: 'Creation of Akan kingdom',
-          wo: 'Royaume Akan ci weesu'
-        },
-        icon: '👑'
-      },
-      {
-        year: '1650',
-        event: {
-          fr: 'Apogée de la tradition des masques',
-          en: 'Peak of mask tradition',
-          wo: 'Apogée tradition yu masque'
-        },
-        icon: '🎭'
-      },
-      {
-        year: '1900',
-        event: {
-          fr: 'Transmission aux générations',
-          en: 'Transmission to generations',
-          wo: 'Transmission ci generations yi'
-        },
-        icon: '📜'
-      }
-    ],
-    relatedArtworks: ['sculpture-king', 'textile-kente'],
-    tags: ['royalty', 'gold', 'power', 'heritage']
-  },
-  {
-    id: 'sculpture-king',
-    title: {
-      fr: 'Sculpture Royale Bénin',
-      en: 'Benin Royal Sculpture',
-      wo: 'Sculpture bu Boroom Bénin'
-    },
-    origin: {
-      region: 'Bénin',
-      country: 'Bénin',
-      coordinates: [6.4969, 2.6289]
-    },
-    category: 'royalty',
-    image: '/src/assets/artwork-sculpture.jpg',
-    description: {
-      fr: "Sculpté dans un bois noble, ce roi du Bénin porte les marques de sa souveraineté. Chaque perle de son collier représente une génération de sagesse.",
-      en: "Carved from noble wood, this Benin king bears the marks of his sovereignty. Each bead of his necklace represents a generation of wisdom.",
-      wo: "Daan ci bois noble, boroom Bénin bii am na ay marques ci souveraineté am. Benn benn perle ci collier bi, waxal na ab génération bu xam-xam."
-    },
-    audio: {
-      fr: '/audio/sculpture-fr.mp3',
-      en: '/audio/sculpture-en.mp3',
-      wo: '/audio/sculpture-wo.mp3'
-    },
-    timeline: [
-      {
-        year: '1200',
-        event: {
-          fr: 'Fondation du royaume du Bénin',
-          en: 'Foundation of Benin Kingdom',
-          wo: 'Tekki royaume Bénin'
-        },
-        icon: '🏛️'
-      },
-      {
-        year: '1500',
-        event: {
-          fr: "Âge d'or de la sculpture",
-          en: 'Golden age of sculpture',
-          wo: 'Age bu dore ci sculpture'
-        },
-        icon: '✨'
-      },
-      {
-        year: '1897',
-        event: {
-          fr: 'Pillage des bronzes du Bénin',
-          en: 'Benin Bronzes looting',
-          wo: 'Ndaje bronzes yi Bénin'
-        },
-        icon: '⚠️'
-      }
-    ],
-    relatedArtworks: ['mask-royal', 'textile-kente'],
-    tags: ['royalty', 'wood', 'benin', 'heritage']
-  },
-  {
-    id: 'textile-kente',
-    title: {
-      fr: 'Tissu Kente Ancestral',
-      en: 'Ancestral Kente Cloth',
-      wo: 'Dëkk Kente bu Njëkk'
-    },
-    origin: {
-      region: 'Ghana',
-      country: 'Ghana',
-      coordinates: [7.9465, -1.0232]
-    },
-    category: 'celebration',
-    image: '/src/assets/artwork-textile.jpg',
-    description: {
-      fr: "Chaque couleur, chaque motif de ce tissu Kente raconte une histoire. Porté lors des grandes cérémonies, il symbolise la richesse culturelle des Ashanti.",
-      en: "Every color, every pattern in this Kente cloth tells a story. Worn during great ceremonies, it symbolizes the cultural wealth of the Ashanti.",
-      wo: "Benn benn nit, benn benn motif ci dëkk Kente bii, wax na ab tarixu. Seet na ci ceremonies yu mag, waxal na richesse culturelle yi Ashanti."
-    },
-    audio: {
-      fr: '/audio/textile-fr.mp3',
-      en: '/audio/textile-en.mp3',
-      wo: '/audio/textile-wo.mp3'
-    },
-    timeline: [
-      {
-        year: '1600',
-        event: {
-          fr: 'Origine du tissage Kente',
-          en: 'Origin of Kente weaving',
-          wo: 'Origine tissage Kente'
-        },
-        icon: '🧵'
-      },
-      {
-        year: '1800',
-        event: {
-          fr: 'Symbole de prestige royal',
-          en: 'Symbol of royal prestige',
-          wo: 'Symbole prestige bu boroom'
-        },
-        icon: '👑'
-      },
-      {
-        year: '2000',
-        event: {
-          fr: 'Renaissance contemporaine',
-          en: 'Contemporary renaissance',
-          wo: 'Renaissance contemporaine'
-        },
-        icon: '🌟'
-      }
-    ],
-    relatedArtworks: ['mask-royal', 'sculpture-king'],
-    tags: ['celebration', 'textile', 'patterns', 'ashanti']
-  }
+// Import images from the Oeuvres_MCN folder to populate the gallery
+import img1 from '../../Oeuvres_MCN/9132b745-c338-4ab4-b485-e559584e5ae0.jpg';
+import img2 from '../../Oeuvres_MCN/fc432193-2811-404d-afe4-3f3364ca34d3.jpg';
+import img3 from '../../Oeuvres_MCN/368e6c01-8120-4677-8426-dac978597785.jpg';
+import img4 from '../../Oeuvres_MCN/494064d5-5431-4864-b1b8-1ffcab84421c.jpg';
+import img5 from '../../Oeuvres_MCN/f163e4ce-53f6-4d3e-a337-941276d0580b.jpg';
+import img6 from '../../Oeuvres_MCN/ffa3ca5c-2191-41b3-8666-7f25282336d4.jpg';
+import img7 from '../../Oeuvres_MCN/67a363e1-ad2e-42e9-9604-470dad610757.jpg';
+import img8 from '../../Oeuvres_MCN/41ef8a9f-d5b0-44e0-898d-03d8f63c0e02.jpg';
+import img9 from '../../Oeuvres_MCN/24f3b048-6ac8-416d-a719-0d1fd4c481d1.jpg';
+import img10 from '../../Oeuvres_MCN/f4242d92-f3d7-42ff-8035-10d51bd04c54.jpg';
+import img11 from '../../Oeuvres_MCN/daef7562-164e-47cf-bcfa-30a0ba7e1efe.jpg';
+import img12 from '../../Oeuvres_MCN/18ce50e7-c7a3-41fb-a858-7041ea0b1c0a.jpg';
+import img13 from '../../Oeuvres_MCN/8b42af43-87a2-4043-83e7-33f1213afd13.jpg';
+
+const importedImages: string[] = [
+  img1,
+  img2,
+  img3,
+  img4,
+  img5,
+  img6,
+  img7,
+  img8,
+  img9,
+  img10,
+  img11,
+  img12,
+  img13,
 ];
+
+const categories: Array<Artwork['category']> = ['royalty', 'spirituality', 'daily', 'celebration'];
+
+function createAutogeneratedArtwork(index: number, imagePath: string): Artwork {
+  const category = categories[index % categories.length];
+  const id = `mcn-${index + 1}`;
+  const baseTitle = `Œuvre MCN ${index + 1}`;
+  const detailFr = `Œuvre ${index + 1} des collections du Musée des Civilisations Noires (Dakar, Sénégal). Cette pièce illustre la richesse des savoir-faire transmis de génération en génération. Les matériaux et la facture renvoient à des usages sociaux, rituels ou royaux selon les régions. Exposée à Dakar, elle témoigne d’un patrimoine vivant en dialogue avec le présent.`;
+  const detailEn = `Artwork ${index + 1} from the Museum of Black Civilizations (Dakar, Senegal). This piece showcases craftsmanship passed down through generations. Its materials and making refer to social, ritual, or royal uses depending on the region. Exhibited in Dakar, it reflects a living heritage in dialogue with the present.`;
+  const detailWo = `Œuvre ${index + 1} ci Musée des Civilisations Noires (Dakar, Sénégal). Mi ngi wone njaay wu ëmb gi ñu jël ci ay xel ak loxo yu yaay ba doom. Matéer yi ak lacc yi di jëfandikookoon ci wàll social, ritual walla royauté. Ñu wone ko ci Dakar, di biral patrimwaan bu di wax ak leegi.`;
+
+  const timeline: Artwork['timeline'] = [
+    { year: 'Origines', event: { fr: 'Transmission des savoir-faire', en: 'Transmission of skills', wo: 'Jox xam-xam yi' }, icon: '🌍' },
+    { year: 'Création', event: { fr: 'Réalisation de la pièce', en: 'Creation of the piece', wo: 'Sampu kër gi' }, icon: '🛠️' },
+    { year: 'Aujourd’hui', event: { fr: 'Mise en valeur au MCN, Dakar', en: 'Showcased at MBC, Dakar', wo: 'Wone ko ci MCN, Dakar' }, icon: '🏛️' }
+  ];
+
+  return {
+    id,
+    title: {
+      fr: baseTitle,
+      en: `Artwork MCN ${index + 1}`,
+      wo: `Œuvre MCN ${index + 1}`
+    },
+    origin: {
+      region: 'Afrique',
+      country: 'Afrique',
+      coordinates: [0, 0]
+    },
+    category,
+    image: imagePath,
+    description: {
+      fr: detailFr,
+      en: detailEn,
+      wo: detailWo
+    },
+    audio: {
+      fr: `/audio/${id}-fr.mp3`,
+      en: `/audio/${id}-en.mp3`,
+      wo: `/audio/${id}-wo.mp3`
+    },
+    video: `/video/${id}.mp4`,
+    period: 'Contemporain',
+    materials: ['Bois', 'Métal', 'Textile'],
+    dimensions: 'N/A',
+    culturalContext: {
+      fr: 'Contexte culturel générique pour la démonstration.',
+      en: 'Generic cultural context for demonstration.',
+      wo: 'Contexte culturel générique bu demo.'
+    },
+    provenance: {
+      fr: 'Collection du Musée des Civilisations Noires.',
+      en: 'Collection of the Museum of Black Civilizations.',
+      wo: 'Collection Musée des Civilisations Noires.'
+    },
+    curatorNotes: {
+      fr: 'Note du conservateur: description à affiner.',
+      en: 'Curator note: description to refine.',
+      wo: 'Note conservateur: description a bokk.'
+    },
+    museum: {
+      name: 'Musée des Civilisations Noires',
+      city: 'Dakar',
+      country: 'Sénégal'
+    },
+    timeline,
+    relatedArtworks: [],
+    tags: ['mcn']
+  };
+}
+
+const autogeneratedArtworks: Artwork[] = importedImages.map((img, i) => createAutogeneratedArtwork(i, img));
+
+export const artworks: Artwork[] = [...autogeneratedArtworks];

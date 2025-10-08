@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Compass, Image, Globe } from 'lucide-react';
+import { Compass, Image, QrCode } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { LanguageSwitcher, type Language } from '@/components/LanguageSwitcher';
 import heroImage from '@/assets/hero-museum.jpg';
@@ -77,14 +77,14 @@ export default function Home() {
                 </Button>
               </Link>
 
-              <Link to="/collections">
+              <Link to="/scan">
                 <Button
                   size="lg"
                   variant="outline"
                   className="group px-8 py-6 text-lg rounded-2xl bg-white/10 backdrop-blur-sm border-2 border-white/30 text-white hover:bg-white/20 font-bold transition-all duration-300 hover:scale-105"
                 >
-                  <Compass className="w-6 h-6 mr-3 transition-transform group-hover:rotate-45" />
-                  {translations.visit[language]}
+                  <QrCode className="w-6 h-6 mr-3 transition-transform group-hover:rotate-12" />
+                  Scanner un QR
                 </Button>
               </Link>
             </div>
